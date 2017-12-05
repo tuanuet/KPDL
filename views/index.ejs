@@ -17,52 +17,62 @@
           <h3>Input</h3>
           <form action="/analyze" method="post">
             <div class="form-group">
-              <label for="title">Title</label>
-              <input type="text" class="form-control" id="title"  name="title" placeholder="Enter the title">
-            </div>
-            <div class="form-group">
-              <label for="content">Content</label>
               <textarea class="form-control" id="content" rows="3" name="content" placeholder="Enter the content"></textarea>
             </div>
 
             <fieldset class="form-group">
               <div class="form-check d-inline">
                 <label class="form-check-label">
-                  <input type="radio" class="form-check-input" name="options" id="options1" value="default" checked>
+                  <input type="radio" class="form-check-input" name="options" id="nolib" value=false checked>
                   Không sử dụng thư viên
                 </label>
               </div>
               <div class="form-check d-inline offset-1">
                 <label class="form-check-label">
-                  <input type="radio" class="form-check-input" name="options" id="options2" value="sklearn">
+                  <input type="radio" class="form-check-input" name="options" id="lib" value=true>
                   Sử dụng sklearn
                 </label>
               </div>
             </fieldset>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" id="btn-submit" class="btn btn-primary">Submit</button>
           </form>
         </div>
         <div class="col-lg-6">
           <h3>Output</h3>
-          <div class="list-group">
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">Title</h5>
-                <!--<small>3 days ago</small>-->
-              </div>
-              <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-              <!--<small>Donec id elit non mi porta.</small>-->
-            </a>
+          <div id="group" class="list-group">
+
           </div>
         </div>
       </div>
     </div>
-    <footer class="footer">
-      <div class="container">
-        <span>Footer</span>
-      </div>
-    </footer>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type='text/javascript' src='/js/popper.min.js'></script>
     <script type='text/javascript' src='/js/bootstrap.min.js'></script>
+    <script type='text/javascript'>
+        let row = (url) => {
+          return `<a href="${url}" target="_blank" class="border border-info list-group-item list-group-item-action flex-column align-items-start">
+                    <!-- <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">Url bài viết</h5>
+                    </div> -->
+                    <p class="mb-1">${url}</p>
+                  </a>`
+        }
+        $(document).ready(function(){
+            $('#btn-submit').click(function(){
+                let content = $('#content').val();
+                let type = $('input[name="options"]:checked').val();
+                axios.post('/analyze', { content: content, type: type })
+                  .then(res => JSON.parse(res.data))
+                  .then(news => {
+                      news.map(item => {
+                          $('#group').append(row(item.url))
+                      })
+                  })
+                  .catch(console.log);
+
+            });
+        });
+
+    </script>
   </body>
 </html>
