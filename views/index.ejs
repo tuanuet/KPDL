@@ -59,6 +59,7 @@
         }
         $(document).ready(function(){
             $('#btn-submit').click(function(){
+                $('#group').empty()
                 let content = $('#content').val();
                 let type = $('input[name="options"]:checked').val();
                 axios.post('/analyze', { content: content, type: type })

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/css/bootstrap.min.css' />
+    <link rel='stylesheet' href='/css/main.css' />
+    <script type='text/javascript' src='/js/jquery-3.2.1.js'></script>
+
+  </head>
+  <body>
+    <div class="jumbotron text-center">
+      <h1><%= title %></h1>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-3">
+          <ul class="nav flex-column">
+            <% for(var i =0;i < 20;i++){ %>
+              <li class="nav-item">
+                <a class="nav-link" href="/news/<%= i%>">Group <%= i%></a>
+              </li>
+            <%}%>
+          </ul>
+        </div>
+        <div class="col-lg-10 col-md-8 col-sm-8 col-xs-6">
+          <div id="group" class="list-group">
+            <% for(var i= 0;i<news.length;i++) {%>
+              <a href="<%= news[i].url%>" target="_blank" class="border border-info list-group-item list-group-item-action flex-column align-items-start">
+
+                <p class="mb-1"><%= news[i].url%></p>
+              </a>
+            <%}%>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type='text/javascript' src='/js/popper.min.js'></script>
+    <script type='text/javascript' src='/js/bootstrap.min.js'></script>
+  </body>
+</html>
